@@ -1,0 +1,25 @@
+.collectionPage {
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+}
+
+.contentArea {
+  width: 100%;
+  min-height: 200px;
+}
+
+.loadingText {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  color: #e61e25;
+  font-weight: 500;
+}
