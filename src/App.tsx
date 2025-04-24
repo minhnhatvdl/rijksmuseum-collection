@@ -1,4 +1,3 @@
-import "./App.css";
 import Layout from "./components/common/Layout/Layout";
 import CollectionPage from "./components/page/CollectionPage";
 
