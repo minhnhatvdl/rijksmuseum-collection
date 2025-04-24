@@ -1,11 +1,13 @@
 import "./App.css";
+import Layout from "./components/common/Layout/Layout";
+import CollectionPage from "./components/page/CollectionPage";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <p>Rijksmuseum Collection</p>
-    </>
+    <Layout>
+      <CollectionPage />
+    </Layout>
   );
-}
+};
 
 export default App;
