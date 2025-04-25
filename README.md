@@ -1,54 +1,135 @@
-# React + TypeScript + Vite
+# Rijksmuseum Collection
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application that allows users to browse and search through the Rijksmuseum's art collection using their public API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Browse the Rijksmuseum art collection
+- Search for specific artworks
+- Responsive design for desktop and mobile viewing
+- Infinite scrolling with "Load more" functionality
+- Image lazy loading for improved performance
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Before you begin, ensure you have:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+- Node.js 16.x or higher
+- npm package manager
+
+## Setup & Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/minhnhatvdl/rijksmuseum-collection.git
+   cd rijksmuseum-collection
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment variables**
+
+   The API key for the Rijksmuseum API is already included in the .env file, so you don't need to set up anything. If you want to use your own API key, you can update the existing .env file:
+
+   ```
+   VITE_RIJKSMUSEUM_API_KEY=your_api_key_here
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+## Testing
+
+The application uses Vitest and React Testing Library for testing components and functionality.
+
+To run tests:
+
+```bash
+npm run test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+To run tests with coverage:
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```bash
+npm run test:coverage
 ```
+
+## Code Quality
+
+The project uses ESLint for code linting and Prettier for code formatting.
+
+### Linting
+
+To check for linting errors:
+
+```bash
+npm run lint
+```
+
+To automatically fix linting errors where possible:
+
+```bash
+npm run lint:fix
+```
+
+### Formatting
+
+To check if files are properly formatted:
+
+```bash
+npm run format:check
+```
+
+To format all files:
+
+```bash
+npm run format
+```
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+## Technologies Used
+
+- React 19
+- TypeScript
+- Vite
+- Vitest & React Testing Library
+- CSS Modules
+
+## Project Decisions
+
+### Architecture & Structure
+
+- **Component Structure**: The project follows a feature-based organization with common components shared across features. This improves code maintainability and makes it easier to locate related code.
+
+- **CSS Modules**: Used for component styling to ensure style encapsulation and prevent global CSS conflicts, making the codebase more maintainable as it scales.
+
+- **TypeScript**: Adopted to provide type safety, better IDE support, and to catch potential errors during development rather than at runtime.
+
+### Performance Optimizations
+
+- **Lazy Loading Images**: Implemented to improve initial load times and reduce unnecessary bandwidth usage.
+
+- **Infinite Scrolling**: Chosen over traditional pagination to provide a smoother user experience while still managing performance by limiting initial data load.
+
+- **React 19 Features**: Leveraging the latest React capabilities for improved performance and developer experience.
+
+### Testing Strategy
+
+- **Vitest & React Testing Library**: Selected for their focus on testing behaviors rather than implementation details, which results in more robust tests that better represent user interactions.
+
+### API Handling
+
+- **Centralized API Service**: All API calls are managed through dedicated service modules to simplify maintenance and provide a consistent interface throughout the application.
