@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { fetchCollection } from "../api/rijksmuseumApi";
+import { fetchCollection, searchCollection } from "../api/rijksmuseumApi";
 import { CollectionParams } from "../api/types";
 
 export function useRijksmuseumApi() {
@@ -23,9 +23,30 @@ export function useRijksmuseumApi() {
     }
   }, []);
 
+  const searchArtObjects = useCallback(
+    async (query: string, params: Omit<CollectionParams, "q"> = {}) => {
+      try {
+        setLoading(true);
+        setError(null);
+        return await searchCollection(query, params);
+      } catch (error) {
+        const err =
+          error instanceof Error
+            ? error
+            : new Error(`Failed to search for "${query}"`);
+        setError(err);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
+
   return {
     loading,
     error,
     getCollection,
+    searchArtObjects,
   };
 }

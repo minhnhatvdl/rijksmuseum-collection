@@ -19,14 +19,16 @@ interface ArtCollectionState {
 
 interface ArtCollectionActions {
   loadMore: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 export function useArtCollection(
+  searchQuery: string | undefined,
   options: UseArtCollectionOptions = {},
 ): [ArtCollectionState, ArtCollectionActions] {
   const { initialPage = 1, pageSize = 20, imageOnly = true } = options;
 
-  const { getCollection } = useRijksmuseumApi();
+  const { getCollection, searchArtObjects } = useRijksmuseumApi();
 
   const [state, setState] = useState<ArtCollectionState>({
     artObjects: [],
@@ -53,7 +55,9 @@ export function useArtCollection(
           imgonly: imageOnly,
         };
 
-        const response = await getCollection(params);
+        const response = searchQuery
+          ? await searchArtObjects(searchQuery, params)
+          : await getCollection(params);
 
         const totalItems = response.count;
         const hasMoreItems = page * pageSize < totalItems;
@@ -80,8 +84,20 @@ export function useArtCollection(
         }));
       }
     },
-    [getCollection, pageSize, imageOnly],
+    [getCollection, searchArtObjects, searchQuery, pageSize, imageOnly],
   );
+
+  const refresh = useCallback(async () => {
+    setState((prev) => ({
+      ...prev,
+      artObjects: [],
+      isLoading: true,
+      error: null,
+    }));
+
+    const newPage = initialPage;
+    await fetchArtObjects(newPage);
+  }, [fetchArtObjects, initialPage]);
 
   const loadMore = useCallback(async () => {
     if (state.isLoadingMore || !state.hasMore) return;
@@ -108,7 +124,9 @@ export function useArtCollection(
           imgonly: imageOnly,
         };
 
-        const response = await getCollection(params);
+        const response = searchQuery
+          ? await searchArtObjects(searchQuery, params)
+          : await getCollection(params);
 
         if (!isCancelled) {
           const totalItems = response.count;
@@ -145,5 +163,5 @@ export function useArtCollection(
     };
   }, [initialPage, pageSize, imageOnly]);
 
-  return [state, { loadMore }];
+  return [state, { loadMore, refresh }];
 }

@@ -38,3 +38,14 @@ export const fetchCollection = async (
   );
   return handleResponse<CollectionResponse>(response);
 };
+
+export const searchCollection = async (
+  query: string,
+  params: Omit<CollectionParams, "q"> = {},
+): Promise<CollectionResponse> => {
+  const searchParams = createSearchParams({ ...params, q: query });
+  const response = await fetch(
+    `${BASE_URL}/collection?${searchParams.toString()}`,
+  );
+  return handleResponse<CollectionResponse>(response);
+};

@@ -1,16 +1,29 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import ArtObjectGrid from "../feature/ArtObjectGrid/ArtObjectGrid";
 import { useArtCollection } from "../../hooks/useArtCollection";
 import styles from "./CollectionPage.module.css";
+import SearchBar from "../feature/SearchBar/SearchBar";
 
 const CollectionPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [
     { artObjects, isLoading, isLoadingMore, error, hasMore },
-    { loadMore },
-  ] = useArtCollection({
+    { loadMore, refresh },
+  ] = useArtCollection(searchTerm, {
     pageSize: 20,
     imageOnly: true,
   });
+
+  const handleSearch = useCallback(
+    (query: string) => {
+      setSearchTerm(query);
+      if (query !== searchTerm) {
+        refresh();
+      }
+    },
+    [refresh, searchTerm],
+  );
 
   const handleLoadMore = useCallback(() => {
     loadMore();
@@ -56,6 +69,7 @@ const CollectionPage = () => {
 
   return (
     <div className={styles.collectionPage}>
+      <SearchBar onSearch={handleSearch} currentSearchTerm={searchTerm} />
       <div className={styles.contentArea}>{renderContent()}</div>
     </div>
   );
