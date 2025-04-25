@@ -1,8 +1,9 @@
 import { useCallback, useState } from "react";
 import ArtObjectGrid from "../feature/ArtObjectGrid/ArtObjectGrid";
+import SearchBar from "../feature/SearchBar/SearchBar";
+import Spinner from "../common/Spinner/Spinner";
 import { useArtCollection } from "../../hooks/useArtCollection";
 import styles from "./CollectionPage.module.css";
-import SearchBar from "../feature/SearchBar/SearchBar";
 
 const CollectionPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +32,12 @@ const CollectionPage = () => {
 
   const renderContent = () => {
     if (isLoading && artObjects.length === 0) {
-      return <p className={styles.loadingText}>Loading collection...</p>;
+      return (
+        <div className={styles.loading}>
+          <Spinner size="medium" />
+          <p className={styles.loadingText}>Loading collection...</p>
+        </div>
+      );
     }
 
     if (error && artObjects.length === 0) {
@@ -56,7 +62,10 @@ const CollectionPage = () => {
               disabled={isLoadingMore}
             >
               {isLoadingMore ? (
-                <span className={styles.loadingButtonText}>Loading...</span>
+                <>
+                  <Spinner size="small" />
+                  <span className={styles.loadingButtonText}>Loading...</span>
+                </>
               ) : (
                 "Load more"
               )}
