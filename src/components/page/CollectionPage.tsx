@@ -47,13 +47,11 @@ const CollectionPage = () => {
     return (
       <>
         <ArtObjectGrid artObjects={artObjects} />
-
         {error && isLoadingMore && (
           <div className={styles.loadMoreError}>
             Error loading more items. Please try again.
           </div>
         )}
-
         {hasMore && (
           <div className={styles.loadMoreContainer}>
             <button
