@@ -1,7 +1,7 @@
 import { CollectionParams, CollectionResponse } from "./types";
 
 const API_KEY = import.meta.env.VITE_RIJKSMUSEUM_API_KEY || "";
-const BASE_URL = import.meta.env.VITE_RIJKSMUSEUM_BASE_URL || "";
+export const BASE_URL = import.meta.env.VITE_RIJKSMUSEUM_BASE_URL || "";
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
